@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<div xmlns="http://www.w3.org/1999/xhtml">
+  <p>
+    <a href="https://travis-ci.org/io7m/jxe">
+      <img src="https://img.shields.io/travis/io7m/jxe.png?style=flat-square"
+           alt="Build status"/>
+    </a>
+    <a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.io7m.jxe%22">
+      <img src="https://img.shields.io/maven-central/v/com.io7m.jxe/com.io7m.jxe.png?style=flat-square"
+           alt="Maven Central"/>
+    </a>
+    <a href="https://www.codacy.com/app/github_79/jxe">
+      <img src="https://img.shields.io/codacy/grade/XXXX.png?style=flat-square"
+           alt="Codacy"/>
+    </a>
+    <a href="https://codecov.io/gh/io7m/jxe">
+      <img src="https://img.shields.io/codecov/c/github/io7m/jxe.png?style=flat-square"
+           alt="Codecov"/>
+    </a>
+  </p>
+
+  <p>
+    The <tt>jxe</tt> package implements a set of classes intended to both
+    provide more secure defaults and to eliminate much of the boilerplate
+    required to set up the standard JDK SAX parsers.
+  </p>
+
+  <p>
+    It provides a sane API for setting up secure-by-default validating SAX
+    parsers that dynamically locate schemas for incoming documents from a
+    whitelisted set of locations without those documents knowing or caring where
+    those schemas are actually located.
+  </p>
+
+  <p>
+    The package is capable of setting up extremely strict validating parsers.
+    For example, many applications that receive XML have the following
+    requirements on incoming data:
+  </p>
+
+  <ul>
+    <li>
+      XML documents <i>must</i> be validated against one of a small set of
+      schemas. Data that has not been validated <i>must</i> be rejected.
+    </li>
+    <li>
+      Documents <i>must</i> declare the namespace to which their data belongs,
+      but <i>must not</i> be required to actually state the physical location of
+      the schema. This is security sensitive: A document should not be able to
+      tell a parser where to find a schema, because hostile documents could
+      cause the parser to read a schema that trivially accepts all data. This
+      would allow the document to essentially pass through without having to
+      conform to the structure that an application expects. Documents that do
+      not declare a namespace <i>must</i> be rejected.
+    </li>
+    <li>
+      The XML parser <i>must not</i> access the network except to explicitly
+      permitted locations. This is security sensitive: A hostile document could
+      declare a dependency on a schema that could cause the parser to contact
+      attacker-controlled servers.
+    </li>
+    <li>
+      The XML parser <i>must</i> be robust in the face of attacks such as
+      <a href="https://en.wikipedia.org/wiki/Billion_laughs_attack">entity
+        expansion attacks</a>.
+    </li>
+    <li>
+      The XML parser <i>must</i> prevent path traversal attacks: Documents
+      must not be able to cause files outside of a particular directory to
+      be accessed.
+    </li>
+  </ul>
+
+  <p>
+    The <tt>jxe</tt> package allows applications to enforce all of the above
+    requirements via a very simple API:
+  </p>
+
+  <pre><![CDATA[
+// Incoming documents *must* be in the "urn:com.io7m.example:simple:1:0" namespace
+
+URI schema_namespace =
+  URI.create("urn:com.io7m.example:simple:1:0");
+
+// When a document states that it is in the "urn:com.io7m.example:simple:1:0" namespace,
+// the parser will open the schema at the URL returned by getResource("simple_1_0.xsd").
+// All other namespaces will be rejected.
+
+JXESchemaDefinition schema =
+  JXESchemaDefinition.of(
+    schema_namespace, "simple_1_0.xsd", Example.class.getResource("simple_1_0.xsd")));
+
+// Declare an immutable map of schemas. In this example, there is only the
+// one schema declared above.
+
+final JXESchemaResolutionMappings schemas =
+  JXESchemaResolutionMappings.builder()
+    .putMappings(schema_namespace, schema)
+    .build();
+
+// Create a provider of hardened SAX parsers.
+
+JXEHardenedSAXParsers parsers =
+  new JXEHardenedSAXParsers();
+
+// Specify a directory containing documents. The parser will not be allowed
+// to access paths that are ancestors of the given directory. This prevents
+// path traversal attacks such as trying to xinclude "../../../../etc/passwd".
+
+Path document_directory = ...;
+
+// Create an XInclude aware SAX parser.
+
+XMLReader reader =
+  parsers.createXMLReader(
+    document_directory, JXEXInclude.XINCLUDE_ENABLED, schemas);
+
+// Use the SAX parser.
+
+reader.setContentHandler(...);
+reader.parse(...);
+]]></pre>
+
+
+</div>
