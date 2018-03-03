@@ -71,6 +71,23 @@ public final class JXEHardenedSAXParsersTest
   }
 
   @Test
+  public void testParseNonValidatingExplicitSystemID()
+    throws Exception
+  {
+    final XMLReader reader =
+      this.parsers.createXMLReaderNonValidating(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED);
+
+    try (InputStream input =
+           Files.newInputStream(this.copyResource("simple.xml"))) {
+      final InputSource source = new InputSource(input);
+      source.setSystemId("simple.xml");
+      reader.parse(source);
+    }
+  }
+
+  @Test
   public void testParseNonValidatingIllFormed()
     throws Exception
   {
