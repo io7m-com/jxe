@@ -132,54 +132,21 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
       final URI uri = new URI(system_id);
       final String scheme = uri.getScheme();
 
-      if (Objects.equals("file", scheme) || scheme == null) {
-        if (this.base_directory.isPresent()) {
-          final Path base = this.base_directory.get();
+      if (!isResolvable(scheme)) {
+        throw new SAXException(
+          new StringBuilder(128)
+            .append("Refusing to resolve a non-file URI.")
+            .append(System.lineSeparator())
+            .append("  Base: ")
+            .append(this.base_directory)
+            .append(System.lineSeparator())
+            .append("  URI: ")
+            .append(uri)
+            .append(System.lineSeparator())
+            .toString());
+      }
 
-          LOG.debug("resolving {} from filesystem", system_id);
-
-          final Path resolved =
-            base.resolve(system_id)
-              .toAbsolutePath()
-              .normalize();
-
-          if (resolved.startsWith(base)) {
-            if (Files.isRegularFile(resolved, LinkOption.NOFOLLOW_LINKS)) {
-
-              /*
-               * It's necessary to explicitly set a system ID for the input
-               * source, or Xerces XIncludeHandler.searchForRecursiveIncludes()
-               * method will raise a null pointer exception when it tries to
-               * call equals() on a null system ID.
-               */
-
-              final InputSource source =
-                new InputSource(Files.newInputStream(resolved));
-              source.setSystemId(resolved.toString());
-              return source;
-            }
-
-            throw new NoSuchFileException(
-              resolved.toString(),
-              null,
-              "File does not exist or is not a regular file");
-          }
-
-          throw new SAXException(
-            new StringBuilder(128)
-              .append(
-                "Refusing to allow access to files above the base directory.")
-              .append(System.lineSeparator())
-              .append("  Base: ")
-              .append(base)
-              .append(System.lineSeparator())
-              .append("  Path: ")
-              .append(resolved)
-              .append(System.lineSeparator())
-              .toString());
-
-        }
-
+      if (!this.base_directory.isPresent()) {
         throw new SAXException(
           new StringBuilder(128)
             .append(
@@ -191,17 +158,47 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
             .toString());
       }
 
-      throw new SAXException(
-        new StringBuilder(128)
-          .append("Refusing to resolve a non-file URI.")
-          .append(System.lineSeparator())
-          .append("  Base: ")
-          .append(this.base_directory)
-          .append(System.lineSeparator())
-          .append("  URI: ")
-          .append(uri)
-          .append(System.lineSeparator())
-          .toString());
+      final Path base = this.base_directory.get();
+      LOG.debug("resolving {} from filesystem", system_id);
+
+      final Path resolved =
+        base.resolve(system_id)
+          .toAbsolutePath()
+          .normalize();
+
+      if (!resolved.startsWith(base)) {
+        throw new SAXException(
+          new StringBuilder(128)
+            .append(
+              "Refusing to allow access to files above the base directory.")
+            .append(System.lineSeparator())
+            .append("  Base: ")
+            .append(base)
+            .append(System.lineSeparator())
+            .append("  Path: ")
+            .append(resolved)
+            .append(System.lineSeparator())
+            .toString());
+      }
+
+      if (!Files.isRegularFile(resolved, LinkOption.NOFOLLOW_LINKS)) {
+        throw new NoSuchFileException(
+          resolved.toString(),
+          null,
+          "File does not exist or is not a regular file");
+      }
+
+      /*
+       * It's necessary to explicitly set a system ID for the input
+       * source, or Xerces XIncludeHandler.searchForRecursiveIncludes()
+       * method will raise a null pointer exception when it tries to
+       * call equals() on a null system ID.
+       */
+
+      final InputSource source =
+        new InputSource(Files.newInputStream(resolved));
+      source.setSystemId(resolved.toString());
+      return source;
 
     } catch (final URISyntaxException e) {
       throw new SAXException(
@@ -217,6 +214,11 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
           .toString(),
         e);
     }
+  }
+
+  private static boolean isResolvable(final String scheme)
+  {
+    return Objects.equals("file", scheme) || scheme == null;
   }
 
   @Override
