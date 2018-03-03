@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:feed xmlns:a="http://www.w3.org/2005/Atom">
+  <a:author>
+    <a:name>minisite</a:name>
+    <a:email>contact@io7m.com</a:email>
+  </a:author>
+  <a:id>http://github.com/io7m/jxe/releases.atom</a:id>
+  <a:title>com.io7m.jxe Releases</a:title>
+  <a:updated>2018-03-03T12:58:23+00:00</a:updated>
+</a:feed>

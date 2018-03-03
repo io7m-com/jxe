@@ -1,0 +1,6 @@
+[section [title Orientation] [id pkg.orientation]]
+[subsection [title Overview] [id pkg.orientation.overview]]
+[paragraph]
+The [term [type package] com.io7m.jxe] package implements a set of
+classes intended to both provide more secure defaults and to eliminate much of
+the boilerplate required to set up the standard JDK SAX parsers.

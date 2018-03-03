@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div class="brand" xmlns="http://www.w3.org/1999/xhtml">
+  <div class="brand_left">
+    <a href="http://io7m.com/">io7m</a>
+  </div>
+  <div class="brand_right">
+    <a href="http://github.com/io7m/jxe">com.io7m.jxe</a> 0.0.1-SNAPSHOT
+  </div>
+</div>
