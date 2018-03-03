@@ -23,6 +23,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.ext.EntityResolver2;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -114,18 +115,9 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
       final JXESchemaDefinition schema = schema_opt.get();
       LOG.debug("resolving {} from internal resources -> {}",
                 system_id, schema.location());
-
-      /*
-       * It's necessary to explicitly set a system ID for the input
-       * source, or Xerces XIncludeHandler.searchForRecursiveIncludes()
-       * method will raise a null pointer exception when it tries to
-       * call equals() on a null system ID.
-       */
-
-      final InputSource source =
-        new InputSource(schema.location().openStream());
-      source.setSystemId(schema.location().toString());
-      return source;
+      return createSource(
+        schema.location().openStream(),
+        schema.location().toString());
     }
 
     try {
@@ -188,18 +180,8 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
           "File does not exist or is not a regular file");
       }
 
-      /*
-       * It's necessary to explicitly set a system ID for the input
-       * source, or Xerces XIncludeHandler.searchForRecursiveIncludes()
-       * method will raise a null pointer exception when it tries to
-       * call equals() on a null system ID.
-       */
 
-      final InputSource source =
-        new InputSource(Files.newInputStream(resolved));
-      source.setSystemId(resolved.toString());
-      return source;
-
+      return createSource(Files.newInputStream(resolved), resolved.toString());
     } catch (final URISyntaxException e) {
       throw new SAXException(
         new StringBuilder(128)
@@ -214,6 +196,22 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
           .toString(),
         e);
     }
+  }
+
+  /*
+   * It's necessary to explicitly set a system ID for the input
+   * source, or Xerces XIncludeHandler.searchForRecursiveIncludes()
+   * method will raise a null pointer exception when it tries to
+   * call equals() on a null system ID.
+   */
+
+  private static InputSource createSource(
+    final InputStream stream,
+    final String system_id)
+  {
+    final InputSource source = new InputSource(stream);
+    source.setSystemId(system_id);
+    return source;
   }
 
   private static boolean isResolvable(final String scheme)
