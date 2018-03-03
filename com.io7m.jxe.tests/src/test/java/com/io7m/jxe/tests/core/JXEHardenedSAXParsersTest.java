@@ -38,6 +38,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 public final class JXEHardenedSAXParsersTest
 {
@@ -59,7 +60,9 @@ public final class JXEHardenedSAXParsersTest
     throws Exception
   {
     final XMLReader reader =
-      this.parsers.createXMLReaderNonValidating(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED);
+      this.parsers.createXMLReaderNonValidating(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED);
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple.xml"))) {
@@ -72,7 +75,9 @@ public final class JXEHardenedSAXParsersTest
     throws Exception
   {
     final XMLReader reader =
-      this.parsers.createXMLReaderNonValidating(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED);
+      this.parsers.createXMLReaderNonValidating(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED);
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_ill_formed.xml"))) {
@@ -87,7 +92,9 @@ public final class JXEHardenedSAXParsersTest
     throws Exception
   {
     final XMLReader reader =
-      this.parsers.createXMLReaderNonValidating(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED);
+      this.parsers.createXMLReaderNonValidating(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED);
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_refuse_traversal.xml"))) {
@@ -104,7 +111,9 @@ public final class JXEHardenedSAXParsersTest
     throws Exception
   {
     final XMLReader reader =
-      this.parsers.createXMLReaderNonValidating(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED);
+      this.parsers.createXMLReaderNonValidating(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED);
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_refuse_network.xml"))) {
@@ -125,7 +134,10 @@ public final class JXEHardenedSAXParsersTest
         .build();
 
     final XMLReader reader =
-      this.parsers.createXMLReader(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED, schemas);
+      this.parsers.createXMLReader(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED,
+        schemas);
 
     reader.setErrorHandler(new EverythingIsFatalErrorHandler());
 
@@ -154,7 +166,10 @@ public final class JXEHardenedSAXParsersTest
         .build();
 
     final XMLReader reader =
-      this.parsers.createXMLReader(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED, schemas);
+      this.parsers.createXMLReader(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED,
+        schemas);
 
     reader.setErrorHandler(new EverythingIsFatalErrorHandler());
 
@@ -172,14 +187,17 @@ public final class JXEHardenedSAXParsersTest
     Files.createDirectories(directory);
 
     final XMLReader reader =
-      this.parsers.createXMLReaderNonValidating(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED);
+      this.parsers.createXMLReaderNonValidating(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED);
 
     reader.setErrorHandler(new EverythingIsFatalErrorHandler());
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_invalid_not_file.xml"))) {
       this.expected.expect(SAXParseException.class);
-      this.expected.expectMessage(StringContains.containsString("File does not exist or is not a regular file"));
+      this.expected.expectMessage(StringContains.containsString(
+        "File does not exist or is not a regular file"));
       reader.parse(new InputSource(input));
     }
   }
@@ -189,7 +207,9 @@ public final class JXEHardenedSAXParsersTest
     throws Exception
   {
     final XMLReader reader =
-      this.parsers.createXMLReaderNonValidating(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED);
+      this.parsers.createXMLReaderNonValidating(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED);
 
     reader.setErrorHandler(new EverythingIsFatalErrorHandler());
 
@@ -201,18 +221,42 @@ public final class JXEHardenedSAXParsersTest
   }
 
   @Test
+  public void testParseNonValidatingRegularFileNoFilesystem()
+    throws Exception
+  {
+    final XMLReader reader =
+      this.parsers.createXMLReaderNonValidating(
+        Optional.empty(),
+        JXEXInclude.XINCLUDE_ENABLED);
+
+    reader.setErrorHandler(new EverythingIsFatalErrorHandler());
+
+    this.copyResource("simple.xml");
+    try (InputStream input =
+           Files.newInputStream(this.copyResource("simple_regular_file.xml"))) {
+
+      this.expected.expect(SAXException.class);
+      this.expected.expectMessage(StringContains.containsString("Refusing to allow access to the filesystem"));
+      reader.parse(new InputSource(input));
+    }
+  }
+
+  @Test
   public void testBillionLaughs()
     throws Exception
   {
     final XMLReader reader =
-      this.parsers.createXMLReaderNonValidating(this.tmpdir, JXEXInclude.XINCLUDE_ENABLED);
+      this.parsers.createXMLReaderNonValidating(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED);
 
     reader.setErrorHandler(new EverythingIsFatalErrorHandler());
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("billion.xml"))) {
       this.expected.expect(SAXException.class);
-      this.expected.expectMessage(StringContains.containsString("External subsets are explicitly forbidden by this parser configuration"));
+      this.expected.expectMessage(StringContains.containsString(
+        "External subsets are explicitly forbidden by this parser configuration"));
       reader.parse(new InputSource(input));
     }
   }

@@ -25,6 +25,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * A provider of hardened SAX parsers.
@@ -46,7 +47,7 @@ public final class JXEHardenedSAXParsers
   /**
    * Create a non-validating XML reader.
    *
-   * @param base_directory A directory that will contain parsed resources
+   * @param base_directory A directory that will contain parsed resources, if any
    * @param xinclude       A specification of whether or not XInclude should be enabled
    *
    * @return A new non-validating XML reader
@@ -56,7 +57,7 @@ public final class JXEHardenedSAXParsers
    */
 
   public XMLReader createXMLReaderNonValidating(
-    final Path base_directory,
+    final Optional<Path> base_directory,
     final JXEXInclude xinclude)
     throws ParserConfigurationException, SAXException
   {
@@ -151,7 +152,7 @@ public final class JXEHardenedSAXParsers
    */
 
   public XMLReader createXMLReader(
-    final Path base_directory,
+    final Optional<Path> base_directory,
     final JXEXInclude xinclude,
     final JXESchemaResolutionMappings in_schemas)
     throws ParserConfigurationException, SAXException

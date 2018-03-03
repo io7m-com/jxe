@@ -44,32 +44,35 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
   private static final Logger LOG =
     LoggerFactory.getLogger(JXEHardenedDispatchingResolver.class);
 
-  private final Path base_directory;
+  private final Optional<Path> base_directory;
   private final JXESchemaResolutionMappings schemas;
 
   private JXEHardenedDispatchingResolver(
-    final Path in_base_directory,
+    final Optional<Path> in_base_directory,
     final JXESchemaResolutionMappings in_schemas)
   {
     this.base_directory =
       Objects.requireNonNull(in_base_directory, "Base directory")
-        .toAbsolutePath()
-        .normalize();
+        .map(p -> p.toAbsolutePath().normalize());
+
     this.schemas =
       Objects.requireNonNull(in_schemas, "Schemas");
   }
 
   /**
-   * Create a new resolver.
+   * Create a new resolver. The resolver will resolve schemas from the given
+   * schema mappings, and will optionall resolve other file resources from the
+   * given base directory. If no base directory is provided, no resolution of
+   * resources from the filesystem will occur.
    *
-   * @param in_base_directory The base directory used to resolve resources
+   * @param in_base_directory The base directory used to resolve resources, if any
    * @param in_schemas        A set of schema mappings
    *
    * @return A new resolver
    */
 
   public static JXEHardenedDispatchingResolver create(
-    final Path in_base_directory,
+    final Optional<Path> in_base_directory,
     final JXESchemaResolutionMappings in_schemas)
   {
     return new JXEHardenedDispatchingResolver(in_base_directory, in_schemas);
@@ -128,46 +131,62 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
     try {
       final URI uri = new URI(system_id);
       final String scheme = uri.getScheme();
+
       if (Objects.equals("file", scheme) || scheme == null) {
-        LOG.debug("resolving {} from filesystem", system_id);
+        if (this.base_directory.isPresent()) {
+          final Path base = this.base_directory.get();
 
-        final Path resolved =
-          this.base_directory.resolve(system_id)
-            .toAbsolutePath()
-            .normalize();
+          LOG.debug("resolving {} from filesystem", system_id);
 
-        if (resolved.startsWith(this.base_directory)) {
-          if (Files.isRegularFile(resolved, LinkOption.NOFOLLOW_LINKS)) {
+          final Path resolved =
+            base.resolve(system_id)
+              .toAbsolutePath()
+              .normalize();
 
-            /*
-             * It's necessary to explicitly set a system ID for the input
-             * source, or Xerces XIncludeHandler.searchForRecursiveIncludes()
-             * method will raise a null pointer exception when it tries to
-             * call equals() on a null system ID.
-             */
+          if (resolved.startsWith(base)) {
+            if (Files.isRegularFile(resolved, LinkOption.NOFOLLOW_LINKS)) {
 
-            final InputSource source =
-              new InputSource(Files.newInputStream(resolved));
-            source.setSystemId(resolved.toString());
-            return source;
+              /*
+               * It's necessary to explicitly set a system ID for the input
+               * source, or Xerces XIncludeHandler.searchForRecursiveIncludes()
+               * method will raise a null pointer exception when it tries to
+               * call equals() on a null system ID.
+               */
+
+              final InputSource source =
+                new InputSource(Files.newInputStream(resolved));
+              source.setSystemId(resolved.toString());
+              return source;
+            }
+
+            throw new NoSuchFileException(
+              resolved.toString(),
+              null,
+              "File does not exist or is not a regular file");
           }
 
-          throw new NoSuchFileException(
-            resolved.toString(),
-            null,
-            "File does not exist or is not a regular file");
+          throw new SAXException(
+            new StringBuilder(128)
+              .append(
+                "Refusing to allow access to files above the base directory.")
+              .append(System.lineSeparator())
+              .append("  Base: ")
+              .append(base)
+              .append(System.lineSeparator())
+              .append("  Path: ")
+              .append(resolved)
+              .append(System.lineSeparator())
+              .toString());
+
         }
 
         throw new SAXException(
           new StringBuilder(128)
             .append(
-              "Refusing to allow access to files above the base directory.")
+              "Refusing to allow access to the filesystem.")
             .append(System.lineSeparator())
-            .append("  Base: ")
-            .append(this.base_directory)
-            .append(System.lineSeparator())
-            .append("  Path: ")
-            .append(resolved)
+            .append("  Input URI: ")
+            .append(uri)
             .append(System.lineSeparator())
             .toString());
       }
