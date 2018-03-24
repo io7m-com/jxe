@@ -20,10 +20,11 @@
 
 module com.io7m.jxe.core
 {
+  requires transitive java.xml;
+
   requires static org.immutables.value;
 
   requires org.slf4j;
-  requires java.xml;
 
   exports com.io7m.jxe.core;
 }
