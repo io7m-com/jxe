@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0-beta0003</version>
   </parent>
 
   <groupId>com.io7m.jxe</groupId>
@@ -21,16 +21,12 @@
   <modules>
     <module>com.io7m.jxe.core</module>
     <module>com.io7m.jxe.tests</module>
-    <module>com.io7m.jxe.checkstyle</module>
     <module>com.io7m.jxe.documentation</module>
   </modules>
 
   <properties>
-    <io7m.checkstyle.artifact>com.io7m.jxe.checkstyle</io7m.checkstyle.artifact>
-    <io7m.checkstyle.path>/com/io7m/jxe/checkstyle/checkstyle.xml</io7m.checkstyle.path>
-    <io7m.api.previousVersion>0.0.1</io7m.api.previousVersion>
-
-    <com.io7m.jxe.immutables.version>2.6.0-alpha1</com.io7m.jxe.immutables.version>
+    <io7m.api.previousVersion>0.0.1-SNAPSHOT</io7m.api.previousVersion>
+    <com.io7m.jxe.immutables.version>2.6.0-alpha3</com.io7m.jxe.immutables.version>
   </properties>
 
   <inceptionYear>2017</inceptionYear>
@@ -129,6 +125,13 @@
             <source>9</source>
             <target>9</target>
             <release>9</release>
+            <annotationProcessorPaths>
+              <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>value</artifactId>
+                <version>${com.io7m.jxe.immutables.version}</version>
+              </dependency>
+            </annotationProcessorPaths>
           </configuration>
         </plugin>
 
@@ -137,6 +140,15 @@
           <groupId>com.io7m.kstructural</groupId>
           <artifactId>io7m-kstructural-maven-plugin</artifactId>
           <version>0.3.1</version>
+        </plugin>
+
+        <!-- Spot bugs -->
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <configuration>
+            <excludeFilterFile>spotbugs-filter.xml</excludeFilterFile>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

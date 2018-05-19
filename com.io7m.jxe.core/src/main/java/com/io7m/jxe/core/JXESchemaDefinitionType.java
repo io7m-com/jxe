@@ -55,5 +55,6 @@ public interface JXESchemaDefinitionType
    */
 
   @Value.Parameter
+  @Value.Auxiliary
   URL location();
 }

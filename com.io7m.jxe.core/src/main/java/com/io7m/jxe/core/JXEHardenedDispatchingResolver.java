@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.NoSuchFileException;
@@ -89,8 +90,15 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
      * This will be encountered upon inline entity definitions.
      */
 
+    final String line_separator = System.lineSeparator();
     throw new SAXException(
-      "External subsets are explicitly forbidden by this parser configuration.");
+      new StringBuilder(128)
+        .append("External subsets are explicitly forbidden by this parser configuration.")
+        .append(line_separator)
+        .append("  Name: ")
+        .append(name)
+        .append(line_separator)
+        .toString());
   }
 
   @Override
@@ -113,13 +121,15 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
 
     if (schema_opt.isPresent()) {
       final JXESchemaDefinition schema = schema_opt.get();
-      LOG.debug("resolving {} from internal resources -> {}",
-                system_id, schema.location());
+      final URL location = schema.location();
+      LOG.debug(
+        "resolving {} from internal resources -> {}", system_id, location);
       return createSource(
-        schema.location().openStream(),
-        schema.location().toString());
+        location.openStream(),
+        location.toString());
     }
 
+    final String line_separator = System.lineSeparator();
     try {
       final URI uri = new URI(system_id);
       final String scheme = uri.getScheme();
@@ -128,13 +138,13 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
         throw new SAXException(
           new StringBuilder(128)
             .append("Refusing to resolve a non-file URI.")
-            .append(System.lineSeparator())
+            .append(line_separator)
             .append("  Base: ")
             .append(this.base_directory)
-            .append(System.lineSeparator())
+            .append(line_separator)
             .append("  URI: ")
             .append(uri)
-            .append(System.lineSeparator())
+            .append(line_separator)
             .toString());
       }
 
@@ -143,10 +153,10 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
           new StringBuilder(128)
             .append(
               "Refusing to allow access to the filesystem.")
-            .append(System.lineSeparator())
+            .append(line_separator)
             .append("  Input URI: ")
             .append(uri)
-            .append(System.lineSeparator())
+            .append(line_separator)
             .toString());
       }
 
@@ -163,13 +173,13 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
           new StringBuilder(128)
             .append(
               "Refusing to allow access to files above the base directory.")
-            .append(System.lineSeparator())
+            .append(line_separator)
             .append("  Base: ")
             .append(base)
-            .append(System.lineSeparator())
+            .append(line_separator)
             .append("  Path: ")
             .append(resolved)
-            .append(System.lineSeparator())
+            .append(line_separator)
             .toString());
       }
 
@@ -186,13 +196,13 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
       throw new SAXException(
         new StringBuilder(128)
           .append("Refusing to resolve an unparseable URI.")
-          .append(System.lineSeparator())
+          .append(line_separator)
           .append("  Base: ")
           .append(this.base_directory)
-          .append(System.lineSeparator())
+          .append(line_separator)
           .append("  URI: ")
           .append(system_id)
-          .append(System.lineSeparator())
+          .append(line_separator)
           .toString(),
         e);
     }

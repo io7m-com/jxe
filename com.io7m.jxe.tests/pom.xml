@@ -24,8 +24,8 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>com.io7m.jxe.core</artifactId>
       <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -55,6 +55,21 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- Ignore dependencies that bytecode analysis gets wrong. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <failOnWarning>true</failOnWarning>
+          <ignoredUnusedDeclaredDependencies>
+            <ignoredUnusedDeclaredDependency>junit:junit:*</ignoredUnusedDeclaredDependency>
+            <ignoredUnusedDeclaredDependency>${project.groupId}:com.io7m.jxe.core:*</ignoredUnusedDeclaredDependency>
+            <ignoredUnusedDeclaredDependency>nl.jqno.equalsverifier:equalsverifier:*</ignoredUnusedDeclaredDependency>
+            <ignoredUnusedDeclaredDependency>ch.qos.logback:logback-classic:*</ignoredUnusedDeclaredDependency>
+          </ignoredUnusedDeclaredDependencies>
+        </configuration>
       </plugin>
     </plugins>
   </build>

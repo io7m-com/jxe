@@ -235,9 +235,9 @@ public final class JXEHardenedSAXParsers
     final StringBuilder locations = new StringBuilder(128);
     in_schemas.mappings().forEach((uri, schema) -> {
       locations.append(uri);
-      locations.append(" ");
+      locations.append(' ');
       locations.append(schema.fileIdentifier());
-      locations.append(" ");
+      locations.append(' ');
     });
 
     reader.setProperty(

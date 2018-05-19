@@ -29,6 +29,7 @@ public final class JXESchemaDefinitionTest
   {
     EqualsVerifier.forClass(JXESchemaDefinition.class)
       .withNonnullFields("namespace", "fileIdentifier", "location")
+      .withIgnoredFields("location")
       .verify();
   }
 }
