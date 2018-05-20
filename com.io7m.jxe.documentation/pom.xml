@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.jxe</groupId>
     <artifactId>com.io7m.jxe</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>com.io7m.jxe.documentation</artifactId>
