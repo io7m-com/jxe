@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema
+  xmlns:x="urn:com.io7m.example:simple:1:0"
+  targetNamespace="urn:com.io7m.example:simple:1:0"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:element name="simple"></xsd:element>
+</xsd:schema>
