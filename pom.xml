@@ -25,7 +25,7 @@
   </modules>
 
   <properties>
-    <io7m.api.previousVersion>0.0.1-SNAPSHOT</io7m.api.previousVersion>
+    <io7m.api.previousVersion>0.0.1</io7m.api.previousVersion>
     <com.io7m.jxe.immutables.version>2.6.0-alpha3</com.io7m.jxe.immutables.version>
   </properties>
 
