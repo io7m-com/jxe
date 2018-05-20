@@ -11,7 +11,7 @@
 
   <groupId>com.io7m.jxe</groupId>
   <artifactId>com.io7m.jxe</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>pom</packaging>
 
   <name>com.io7m.jxe</name>
