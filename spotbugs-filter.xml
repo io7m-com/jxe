@@ -4,6 +4,7 @@
     <Or>
       <Bug pattern="IMC_IMMATURE_CLASS_NO_TOSTRING"/>
       <Bug pattern="CRLF_INJECTION_LOGS"/>
+      <Bug pattern="OPM_OVERLY_PERMISSIVE_METHOD"/>
     </Or>
   </Match>
 </FindBugsFilter>

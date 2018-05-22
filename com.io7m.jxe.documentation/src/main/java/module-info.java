@@ -21,6 +21,7 @@
 module com.io7m.jxe.documentation
 {
   requires static org.immutables.value;
+  requires static com.io7m.immutables.style;
 
   requires com.io7m.jxe.core;
 

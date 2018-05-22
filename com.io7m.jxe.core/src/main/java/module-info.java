@@ -23,6 +23,7 @@ module com.io7m.jxe.core
   requires transitive java.xml;
 
   requires static org.immutables.value;
+  requires static com.io7m.immutables.style;
 
   requires org.slf4j;
 
