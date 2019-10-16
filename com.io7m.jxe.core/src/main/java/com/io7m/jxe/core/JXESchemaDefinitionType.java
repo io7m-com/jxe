@@ -16,6 +16,7 @@
 
 package com.io7m.jxe.core;
 
+import com.io7m.immutables.styles.ImmutablesStyleType;
 import org.immutables.value.Value;
 
 import java.net.URI;
@@ -32,7 +33,7 @@ import java.net.URL;
  * uses that identifier to open {@link #location()}.
  */
 
-@ImmutableStyleType
+@ImmutablesStyleType
 @Value.Immutable
 public interface JXESchemaDefinitionType
 {

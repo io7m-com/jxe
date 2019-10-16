@@ -16,6 +16,7 @@
 
 package com.io7m.jxe.core;
 
+import com.io7m.immutables.styles.ImmutablesStyleType;
 import org.immutables.value.Value;
 
 import java.net.URI;
@@ -25,7 +26,7 @@ import java.util.Map;
  * A set of mappings from namespace URIs to schemas.
  */
 
-@ImmutableStyleType
+@ImmutablesStyleType
 @Value.Immutable
 public interface JXESchemaResolutionMappingsType
 {
