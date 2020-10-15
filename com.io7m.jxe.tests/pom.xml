@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.jxe</groupId>
     <artifactId>com.io7m.jxe</artifactId>
-    <version>0.0.2</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>com.io7m.jxe.tests</artifactId>
@@ -32,8 +32,13 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

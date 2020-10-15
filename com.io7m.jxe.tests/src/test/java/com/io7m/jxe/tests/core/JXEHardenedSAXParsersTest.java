@@ -20,11 +20,9 @@ import com.io7m.jxe.core.JXEHardenedSAXParsers;
 import com.io7m.jxe.core.JXESchemaDefinition;
 import com.io7m.jxe.core.JXESchemaResolutionMappings;
 import com.io7m.jxe.core.JXEXInclude;
-import org.hamcrest.core.StringContains;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -45,9 +43,7 @@ public final class JXEHardenedSAXParsersTest
   private JXEHardenedSAXParsers parsers;
   private Path tmpdir;
 
-  @Rule public ExpectedException expected = ExpectedException.none();
-
-  @Before
+  @BeforeEach
   public void setUp()
     throws IOException
   {
@@ -99,8 +95,9 @@ public final class JXEHardenedSAXParsersTest
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_ill_formed.xml"))) {
 
-      this.expected.expect(SAXParseException.class);
-      reader.parse(new InputSource(input));
+      Assertions.assertThrows(SAXParseException.class, () -> {
+        reader.parse(new InputSource(input));
+      });
     }
   }
 
@@ -116,10 +113,14 @@ public final class JXEHardenedSAXParsersTest
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_refuse_traversal.xml"))) {
 
-      this.expected.expect(SAXException.class);
-      this.expected.expectMessage(StringContains.containsString(
-        "Refusing to allow access to files above the base directory"));
-      reader.parse(new InputSource(input));
+      final var ex =
+        Assertions.assertThrows(SAXException.class, () -> {
+          reader.parse(new InputSource(input));
+        });
+      Assertions.assertTrue(
+        ex.getMessage().contains(
+          "Refusing to allow access to files above the base directory")
+      );
     }
   }
 
@@ -135,10 +136,13 @@ public final class JXEHardenedSAXParsersTest
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_refuse_network.xml"))) {
 
-      this.expected.expect(SAXException.class);
-      this.expected.expectMessage(StringContains.containsString(
-        "Refusing to resolve a non-file URI"));
-      reader.parse(new InputSource(input));
+      final var ex =
+        Assertions.assertThrows(SAXException.class, () -> {
+          reader.parse(new InputSource(input));
+        });
+      Assertions.assertTrue(
+        ex.getMessage().contains("Refusing to resolve a non-file URI")
+      );
     }
   }
 
@@ -161,10 +165,14 @@ public final class JXEHardenedSAXParsersTest
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple.xml"))) {
 
-      this.expected.expect(SAXException.class);
-      this.expected.expectMessage(StringContains.containsString(
-        "Cannot find the declaration of element 'simple'"));
-      reader.parse(new InputSource(input));
+      final var ex =
+        Assertions.assertThrows(SAXParseException.class, () -> {
+          reader.parse(new InputSource(input));
+        });
+      Assertions.assertTrue(
+        ex.getMessage().contains(
+          "Cannot find the declaration of element 'simple'")
+      );
     }
   }
 
@@ -212,10 +220,14 @@ public final class JXEHardenedSAXParsersTest
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_invalid_not_file.xml"))) {
-      this.expected.expect(SAXParseException.class);
-      this.expected.expectMessage(StringContains.containsString(
-        "File does not exist or is not a regular file"));
-      reader.parse(new InputSource(input));
+
+      final var ex =
+        Assertions.assertThrows(SAXParseException.class, () -> {
+          reader.parse(new InputSource(input));
+        });
+      Assertions.assertTrue(
+        ex.getMessage().contains("File does not exist or is not a regular file")
+      );
     }
   }
 
@@ -252,9 +264,13 @@ public final class JXEHardenedSAXParsersTest
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_regular_file.xml"))) {
 
-      this.expected.expect(SAXException.class);
-      this.expected.expectMessage(StringContains.containsString("Refusing to allow access to the filesystem"));
-      reader.parse(new InputSource(input));
+      final var ex =
+        Assertions.assertThrows(SAXException.class, () -> {
+          reader.parse(new InputSource(input));
+        });
+      Assertions.assertTrue(
+        ex.getMessage().contains("Refusing to allow access to the filesystem")
+      );
     }
   }
 
@@ -271,10 +287,15 @@ public final class JXEHardenedSAXParsersTest
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("billion.xml"))) {
-      this.expected.expect(SAXException.class);
-      this.expected.expectMessage(StringContains.containsString(
-        "External subsets are explicitly forbidden by this parser configuration"));
-      reader.parse(new InputSource(input));
+
+      final var ex =
+        Assertions.assertThrows(SAXException.class, () -> {
+          reader.parse(new InputSource(input));
+        });
+      Assertions.assertTrue(
+        ex.getMessage().contains(
+          "External subsets are explicitly forbidden by this parser configuration")
+      );
     }
   }
 
