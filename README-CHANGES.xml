@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<c:changelog project="jxe" xmlns:c="urn:com.io7m.changelog:4.0">
+<c:changelog project="com.io7m.jxe" xmlns:c="urn:com.io7m.changelog:4.0">
   <c:releases>
     <c:release date="2020-10-15T13:56:43+00:00" ticket-system="com.github.io7m.jxe" version="1.0.0">
       <c:changes/>
