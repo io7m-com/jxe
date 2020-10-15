@@ -16,11 +16,11 @@
 
 package com.io7m.jxe.tests.core;
 
-import org.junit.Test;
 
 import com.io7m.jxe.core.JXESchemaDefinition;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.junit.jupiter.api.Test;
 
 public final class JXESchemaDefinitionTest
 {
