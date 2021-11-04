@@ -25,10 +25,9 @@
   </modules>
 
   <properties>
-    <com.codacy.id>6e6f69d7eb5d41e9a2ceb3fa28ab7b0a</com.codacy.id>
     <com.io7m.jxe.immutables.version>2.6.0</com.io7m.jxe.immutables.version>
     <io7m.api.previousVersion>0.0.1</io7m.api.previousVersion>
-    <junit.version>5.7.0</junit.version>
+    <junit.version>5.8.1</junit.version>
   </properties>
 
   <inceptionYear>2017</inceptionYear>
@@ -126,7 +125,7 @@
       <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
         <artifactId>equalsverifier</artifactId>
-        <version>3.4.3</version>
+        <version>3.7.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
