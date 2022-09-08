@@ -11,7 +11,7 @@
       resolvers find their respective XSD schemas from a provided whitelist of
       locations. Reject non-validated XML!
     </li>
-    <li><a href="https://www.osgi.org/">OSGi</a>-ready.</li>
+    <li><a href="https://www.osgi.org/">OSGi</a>-ready</li>
     <li><a href="https://en.wikipedia.org/wiki/Java_Platform_Module_System">JPMS</a>-ready</li>
     <li>High coverage automated test suite</li>
     <li>ISC license</li>
