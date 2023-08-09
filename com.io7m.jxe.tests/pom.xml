@@ -17,7 +17,12 @@
 
   <name>com.io7m.jxe.tests</name>
   <description>Security-enhanced XML utilities (Test suite)</description>
-  <url>http://io7m.github.io/jxe/</url>
+  <url>https://www.io7m.com/software/jxe</url>
+
+  <properties>
+    <checkstyle.skip>true</checkstyle.skip>
+    <mdep.analyze.skip>true</mdep.analyze.skip>
+  </properties>
 
   <dependencies>
     <dependency>

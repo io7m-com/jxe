@@ -7,4 +7,13 @@
       <Bug pattern="OPM_OVERLY_PERMISSIVE_METHOD"/>
     </Or>
   </Match>
+
+  <!-- Generated types. -->
+  <Match>
+    <Or>
+      <Class name="com.io7m.jxe.core.JXESchemaResolutionMappings$Builder"/>
+      <Class name="com.io7m.jxe.core.JXESchemaResolutionMappings"/>
+      <Class name="com.io7m.jxe.core.JXESchemaDefinition"/>
+    </Or>
+  </Match>
 </FindBugsFilter>
