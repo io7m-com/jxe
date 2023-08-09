@@ -20,10 +20,10 @@ the standard JDK SAX parsers.
 
 ### Motivation
 
-It provides a sane API for setting up secure-by-default validating SAX parsers
-that dynamically locate schemas for incoming documents from a whitelisted set
-of locations without those documents knowing or caring where those schemas are
-actually located.
+The `jxe` package provides a sane API for setting up secure-by-default
+validating SAX parsers that dynamically locate schemas for incoming documents
+from a whitelisted set of locations without those documents knowing or caring
+where those schemas are actually located.
 
 The package is capable of setting up extremely strict validating parsers.
 For example, many applications that receive XML have the following requirements
