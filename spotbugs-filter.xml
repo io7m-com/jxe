@@ -8,8 +8,12 @@
     </Or>
   </Match>
 
+  <!-- Generated types. -->
   <Match>
-    <Class name="com.io7m.jxe.core.JXESchemaResolutionMappings"/>
-    <Bug pattern="EI_EXPOSE_REP"/>
+    <Or>
+      <Class name="com.io7m.jxe.core.JXESchemaResolutionMappings$Builder"/>
+      <Class name="com.io7m.jxe.core.JXESchemaResolutionMappings"/>
+      <Class name="com.io7m.jxe.core.JXESchemaDefinition"/>
+    </Or>
   </Match>
 </FindBugsFilter>
