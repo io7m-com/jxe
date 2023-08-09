@@ -11,7 +11,7 @@
 
   <groupId>com.io7m.jxe</groupId>
   <artifactId>com.io7m.jxe</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>com.io7m.jxe</name>
@@ -26,7 +26,7 @@
 
   <properties>
     <com.io7m.jxe.immutables.version>2.9.3</com.io7m.jxe.immutables.version>
-    <io7m.api.previousVersion>1.0.0</io7m.api.previousVersion>
+    <io7m.api.previousVersion>1.0.2</io7m.api.previousVersion>
     <junit.version>5.9.3</junit.version>
   </properties>
 
