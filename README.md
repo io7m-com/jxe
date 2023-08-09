@@ -65,7 +65,7 @@ on incoming data:
 
 ### Usage
 
-The jxe package allows applications to enforce all of the above requirements
+The `jxe` package allows applications to enforce all of the above requirements
 via a very simple API:
 
 ```
