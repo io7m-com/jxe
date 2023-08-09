@@ -19,6 +19,11 @@
   <description>Security-enhanced XML utilities (Test suite)</description>
   <url>http://io7m.github.io/jxe/</url>
 
+  <properties>
+    <checkstyle.skip>true</checkstyle.skip>
+    <mdep.analyze.skip>true</mdep.analyze.skip>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
