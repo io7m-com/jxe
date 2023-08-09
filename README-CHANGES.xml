@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <c:changelog project="com.io7m.jxe" xmlns:c="urn:com.io7m.changelog:4.0">
   <c:releases>
-    <c:release date="2020-10-15T13:56:43+00:00" ticket-system="com.github.io7m.jxe" version="1.0.0">
+    <c:release date="2020-10-15T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.0">
       <c:changes/>
+    </c:release>
+    <c:release date="2023-08-09T20:32:27+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.1">
+      <c:changes>
+        <c:change date="2023-08-09T00:00:00+00:00" summary="Update test dependencies."/>
+        <c:change date="2023-08-09T00:00:00+00:00" summary="Use latest build plugins."/>
+      </c:changes>
     </c:release>
   </c:releases>
   <c:ticket-systems>
