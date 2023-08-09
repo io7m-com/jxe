@@ -29,23 +29,23 @@ The package is capable of setting up extremely strict validating parsers.
 For example, many applications that receive XML have the following requirements
 on incoming data:
 
-  * XML documents must be validated against one of a small set of schemas.
-    Data that has not been validated must be rejected.
-  * Documents must declare the namespace to which their data belongs, but
-    must not be required to actually state the physical location of the
+  * XML documents _must_ be validated against one of a small set of schemas.
+    Data that has not been validated _must_ be rejected.
+  * Documents _must_ declare the namespace to which their data belongs, but
+    _must not_ be required to actually state the physical location of the
     schema. This is security sensitive: A document should not be able to tell
     a parser where to find a schema, because hostile documents could cause
     the parser to read a schema that trivially accepts all data.
     This would allow the document to essentially pass through without
     having to conform to the structure that an application expects.
     Documents that do not declare a namespace must be rejected.
-  * The XML parser must not access the network except to explicitly permitted
+  * The XML parser _must not_ access the network except to explicitly permitted
     locations. This is security sensitive: A hostile document could declare a
     dependency on a schema that could cause the parser to contact
     attacker-controlled servers.
-  * The XML parser must be robust in the face of attacks such as entity
+  * The XML parser _must_ be robust in the face of attacks such as entity
     expansion attacks.
-  * The XML parser must prevent path traversal attacks: Documents must not be
+  * The XML parser _must_ prevent path traversal attacks: Documents must not be
     able to cause files outside of a particular directory to be accessed.
 
 ### Usage
