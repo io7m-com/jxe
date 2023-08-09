@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.jxe</groupId>
     <artifactId>com.io7m.jxe</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
 
   <artifactId>com.io7m.jxe.documentation</artifactId>
@@ -17,7 +17,7 @@
 
   <name>com.io7m.jxe.documentation</name>
   <description>Security-enhanced XML utilities (Documentation)</description>
-  <url>http://io7m.github.io/jxe/</url>
+  <url>https://www.io7m.com/software/jxe</url>
 
   <properties>
     <mdep.analyze.skip>true</mdep.analyze.skip>

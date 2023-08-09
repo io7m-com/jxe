@@ -11,12 +11,12 @@
 
   <groupId>com.io7m.jxe</groupId>
   <artifactId>com.io7m.jxe</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>pom</packaging>
 
   <name>com.io7m.jxe</name>
   <description>Security-enhanced XML utilities</description>
-  <url>http://github.com/io7m/jxe</url>
+  <url>https://www.io7m.com/software/jxe</url>
 
   <modules>
     <module>com.io7m.jxe.core</module>
@@ -26,7 +26,7 @@
 
   <properties>
     <com.io7m.jxe.immutables.version>2.9.3</com.io7m.jxe.immutables.version>
-    <io7m.api.previousVersion>0.0.1</io7m.api.previousVersion>
+    <io7m.api.previousVersion>1.0.0</io7m.api.previousVersion>
     <junit.version>5.9.3</junit.version>
   </properties>
 
@@ -35,12 +35,12 @@
   <licenses>
     <license>
       <name>ISC</name>
-      <url>http://io7m.com/license/isc.txt</url>
+      <url>https://www.io7m.com/license/isc.txt</url>
     </license>
   </licenses>
 
   <scm>
-    <url>https://github.com/io7m/jxe</url>
+    <url>https://www.github.com/io7m/jxe</url>
     <connection>scm:git:https://github.com/io7m/jxe</connection>
     <developerConnection>scm:git:https://github.com/io7m/jxe</developerConnection>
   </scm>
@@ -50,12 +50,12 @@
       <id>io7m</id>
       <name>io7m</name>
       <email>code@io7m.com</email>
-      <url>http://io7m.com</url>
+      <url>https://www.io7m.com</url>
     </developer>
   </developers>
 
   <issueManagement>
-    <url>http://github.com/io7m/jxe/issues</url>
+    <url>https://www.github.com/io7m/jxe/issues</url>
     <system>GitHub Issues</system>
   </issueManagement>
 
