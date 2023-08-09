@@ -4,10 +4,15 @@
     <c:release date="2020-10-15T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.0">
       <c:changes/>
     </c:release>
-    <c:release date="2023-08-09T20:32:27+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.1">
+    <c:release date="2023-08-09T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.1">
       <c:changes>
         <c:change date="2023-08-09T00:00:00+00:00" summary="Update test dependencies."/>
         <c:change date="2023-08-09T00:00:00+00:00" summary="Use latest build plugins."/>
+      </c:changes>
+    </c:release>
+    <c:release date="2023-08-09T20:43:03+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.2">
+      <c:changes>
+        <c:change date="2023-08-09T00:00:00+00:00" summary="1.0.1 had a broken deployment; no changes."/>
       </c:changes>
     </c:release>
   </c:releases>
