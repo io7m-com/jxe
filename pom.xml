@@ -27,6 +27,7 @@
   <properties>
     <com.io7m.jxe.immutables.version>2.10.0</com.io7m.jxe.immutables.version>
     <io7m.api.previousVersion>1.0.2</io7m.api.previousVersion>
+    <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
     <junit.version>5.10.1</junit.version>
   </properties>
 
