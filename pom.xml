@@ -21,13 +21,15 @@
   <modules>
     <module>com.io7m.jxe.core</module>
     <module>com.io7m.jxe.tests</module>
-    <module>com.io7m.jxe.documentation</module>
   </modules>
 
   <properties>
-    <com.io7m.jxe.immutables.version>2.10.1</com.io7m.jxe.immutables.version>
+    <!-- Configuration. -->
     <io7m.api.previousVersion>1.0.2</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
+
+    <!-- Third-party dependencies. -->
+    <com.io7m.jxe.immutables.version>2.10.1</com.io7m.jxe.immutables.version>
     <junit.version>5.10.2</junit.version>
   </properties>
 
@@ -147,13 +149,6 @@
               </dependency>
             </annotationProcessorPaths>
           </configuration>
-        </plugin>
-
-        <!-- KStructural Maven Plugin -->
-        <plugin>
-          <groupId>com.io7m.kstructural</groupId>
-          <artifactId>io7m-kstructural-maven-plugin</artifactId>
-          <version>0.3.1</version>
         </plugin>
 
         <!-- Spot bugs -->
