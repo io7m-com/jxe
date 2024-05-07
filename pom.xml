@@ -11,7 +11,7 @@
 
   <groupId>com.io7m.jxe</groupId>
   <artifactId>com.io7m.jxe</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>com.io7m.jxe</name>
@@ -25,7 +25,7 @@
 
   <properties>
     <!-- Configuration. -->
-    <io7m.api.previousVersion>1.0.2</io7m.api.previousVersion>
+    <io7m.api.previousVersion>1.0.3</io7m.api.previousVersion>
     <io7m.java.targetJavaVersion>17</io7m.java.targetJavaVersion>
 
     <!-- Third-party dependencies. -->
