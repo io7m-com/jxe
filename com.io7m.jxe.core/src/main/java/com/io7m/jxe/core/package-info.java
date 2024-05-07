@@ -18,4 +18,9 @@
  * Core types and functions.
  */
 
+@Export
+@Version("1.0.3")
 package com.io7m.jxe.core;
+
+import org.osgi.annotation.bundle.Export;
+import org.osgi.annotation.versioning.Version;
