@@ -10,13 +10,22 @@
         <c:change date="2023-08-09T00:00:00+00:00" summary="Use latest build plugins."/>
       </c:changes>
     </c:release>
-    <c:release date="2023-08-09T20:43:03+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.2">
+    <c:release date="2023-08-09T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.2">
       <c:changes>
         <c:change date="2023-08-09T00:00:00+00:00" summary="1.0.1 had a broken deployment; no changes."/>
       </c:changes>
     </c:release>
+    <c:release date="2024-05-07T21:18:15+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="1.0.3">
+      <c:changes>
+        <c:change date="2024-04-19T00:00:00+00:00" summary="Update org.immutables:value:2.10.0 → 2.10.1."/>
+        <c:change date="2024-04-19T00:00:00+00:00" summary="Update org.slf4j:slf4j-api:2.0.10 → 2.0.13."/>
+        <c:change date="2024-04-19T00:00:00+00:00" summary="Update nl.jqno.equalsverifier:equalsverifier:3.15.5 → 3.16.1."/>
+        <c:change date="2024-04-19T00:00:00+00:00" summary="Update ch.qos.logback:logback-classic:1.4.14 → 1.5.6."/>
+        <c:change date="2024-04-22T00:00:00+00:00" summary="Update junit.version:5.10.1 → 5.10.2."/>
+      </c:changes>
+    </c:release>
   </c:releases>
   <c:ticket-systems>
-    <c:ticket-system default="true" id="com.github.io7m.jxe" url="https://github.com/io7m/jxe/issues/"/>
+    <c:ticket-system default="true" id="com.github.io7m.jxe" url="https://www.github.com/io7m-com/jxe/issues/"/>
   </c:ticket-systems>
 </c:changelog>
