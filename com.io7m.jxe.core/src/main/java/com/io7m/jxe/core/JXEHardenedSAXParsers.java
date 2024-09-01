@@ -41,7 +41,19 @@ public final class JXEHardenedSAXParsers
 
   public JXEHardenedSAXParsers()
   {
-    this.parsers = SAXParserFactory.newInstance();
+    this(SAXParserFactory.newInstance());
+  }
+
+  /**
+   * Construct a provider.
+   *
+   * @param inParsers The factory of SAX parsers to use
+   */
+
+  public JXEHardenedSAXParsers(
+    final SAXParserFactory inParsers)
+  {
+    this.parsers = Objects.requireNonNull(inParsers, "inParsers");
   }
 
   /**
