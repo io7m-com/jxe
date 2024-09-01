@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2024 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -15,22 +15,21 @@
  */
 
 /**
- * Core types and functions.
+ * Unit tests for the core.
  */
 
-module com.io7m.jxe.core
+open module com.io7m.jxe.tests
 {
-  requires transitive java.xml;
+  requires com.io7m.jxe.core;
 
-  requires static com.io7m.immutables.style;
-  requires static org.immutables.value;
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
+  requires org.junit.jupiter.api;
+  requires org.junit.jupiter.engine;
+  requires org.junit.platform.commons;
+  requires org.junit.platform.engine;
+  requires org.junit.platform.launcher;
 
+  requires nl.jqno.equalsverifier;
   requires org.slf4j;
 
-  exports com.io7m.jxe.core;
-
-  opens com.io7m.jxe.core
-    to nl.jqno.equalsverifier;
+  exports com.io7m.jxe.tests.core;
 }

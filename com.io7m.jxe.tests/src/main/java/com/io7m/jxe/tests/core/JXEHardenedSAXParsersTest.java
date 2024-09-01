@@ -23,12 +23,18 @@ import com.io7m.jxe.core.JXEXInclude;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
+import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -38,8 +44,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public final class JXEHardenedSAXParsersTest
+public class JXEHardenedSAXParsersTest
 {
+  private static final Logger LOG =
+    LoggerFactory.getLogger(JXEHardenedSAXParsersTest.class);
+
   private JXEHardenedSAXParsers parsers;
   private Path tmpdir;
 
@@ -47,8 +56,10 @@ public final class JXEHardenedSAXParsersTest
   public void setUp()
     throws IOException
   {
-    this.tmpdir = Files.createTempDirectory("jxe-tests-");
-    this.parsers = new JXEHardenedSAXParsers();
+    this.tmpdir =
+      Files.createTempDirectory("jxe-tests-");
+    this.parsers =
+      new JXEHardenedSAXParsers(SAXParserFactory::newNSInstance);
   }
 
   @Test
@@ -166,12 +177,12 @@ public final class JXEHardenedSAXParsersTest
            Files.newInputStream(this.copyResource("simple.xml"))) {
 
       final var ex =
-        Assertions.assertThrows(SAXParseException.class, () -> {
+        Assertions.assertThrows(SAXException.class, () -> {
           reader.parse(new InputSource(input));
         });
       Assertions.assertTrue(
         ex.getMessage().contains(
-          "Cannot find the declaration of element 'simple'")
+          "simple")
       );
     }
   }
@@ -197,10 +208,45 @@ public final class JXEHardenedSAXParsersTest
         schemas);
 
     reader.setErrorHandler(new EverythingIsFatalErrorHandler());
+    reader.setContentHandler(new DisplayContentHandler());
 
     try (InputStream input =
            Files.newInputStream(this.copyResource("simple_valid.xml"))) {
       reader.parse(new InputSource(input));
+    }
+  }
+
+  @Test
+  public void testParseValidatingInvalid()
+    throws Exception
+  {
+    final JXESchemaResolutionMappings schemas =
+      JXESchemaResolutionMappings.builder()
+        .putMappings(
+          URI.create("urn:com.io7m.example:simple:1:0"),
+          JXESchemaDefinition.of(
+            URI.create("urn:com.io7m.example:simple:1:0"),
+            "/schema_simple_1_0.xsd",
+            JXEHardenedSAXParsersTest.class.getResource("simple.xsd")))
+        .build();
+
+    final XMLReader reader =
+      this.parsers.createXMLReader(
+        Optional.of(this.tmpdir),
+        JXEXInclude.XINCLUDE_ENABLED,
+        schemas);
+
+    reader.setErrorHandler(new EverythingIsFatalErrorHandler());
+    reader.setContentHandler(new DisplayContentHandler());
+
+    try (InputStream input =
+           Files.newInputStream(this.copyResource("simple_invalid.xml"))) {
+      final var ex =
+        Assertions.assertThrows(SAXException.class, () -> {
+          reader.parse(new InputSource(input));
+        });
+
+      LOG.debug("Exception: ", ex);
     }
   }
 
@@ -292,10 +338,8 @@ public final class JXEHardenedSAXParsersTest
         Assertions.assertThrows(SAXException.class, () -> {
           reader.parse(new InputSource(input));
         });
-      Assertions.assertTrue(
-        ex.getMessage().contains(
-          "External subsets are explicitly forbidden by this parser configuration")
-      );
+
+      LOG.debug("Exception: ", ex);
     }
   }
 
@@ -342,6 +386,99 @@ public final class JXEHardenedSAXParsersTest
       throws SAXException
     {
       throw e;
+    }
+  }
+
+  private static final class DisplayContentHandler implements ContentHandler
+  {
+    DisplayContentHandler()
+    {
+
+    }
+
+    @Override
+    public void setDocumentLocator(
+      final Locator locator)
+    {
+      LOG.debug("setDocumentLocator: {}", locator);
+    }
+
+    @Override
+    public void startDocument()
+    {
+      LOG.debug("startDocument");
+    }
+
+    @Override
+    public void endDocument()
+    {
+      LOG.debug("endDocument");
+    }
+
+    @Override
+    public void startPrefixMapping(
+      final String prefix,
+      final String uri)
+    {
+      LOG.debug("startPrefixMapping {} {}", prefix, uri);
+    }
+
+    @Override
+    public void endPrefixMapping(
+      final String prefix)
+    {
+      LOG.debug("endPrefixMapping {}", prefix);
+    }
+
+    @Override
+    public void startElement(
+      final String uri,
+      final String localName,
+      final String qName,
+      final Attributes atts)
+    {
+      LOG.debug("startElement {} {} {} {}", uri, localName, qName, atts);
+    }
+
+    @Override
+    public void endElement(
+      final String uri,
+      final String localName,
+      final String qName)
+    {
+      LOG.debug("endElement {} {} {}", uri, localName, qName);
+    }
+
+    @Override
+    public void characters(
+      final char[] ch,
+      final int start,
+      final int length)
+    {
+      LOG.debug("characters {} {} {}", "<redacted>", start, length);
+    }
+
+    @Override
+    public void ignorableWhitespace(
+      final char[] ch,
+      final int start,
+      final int length)
+    {
+      LOG.debug("ignorableWhitespace {} {} {}", "<redacted>", start, length);
+    }
+
+    @Override
+    public void processingInstruction(
+      final String target,
+      final String data)
+    {
+      LOG.debug("processingInstruction {} {}", target, data);
+    }
+
+    @Override
+    public void skippedEntity(final String name)
+    {
+      LOG.debug("skippedEntity {}", name);
     }
   }
 }

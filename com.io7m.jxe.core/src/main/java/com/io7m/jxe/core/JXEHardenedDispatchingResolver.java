@@ -84,21 +84,13 @@ public final class JXEHardenedDispatchingResolver implements EntityResolver2
   public InputSource getExternalSubset(
     final String name,
     final String base_uri)
-    throws SAXException
   {
     /*
-     * This will be encountered upon inline entity definitions.
+     * This will be encountered upon inline entity definitions. We can return
+     * null to simply refuse to resolve all external subsets.
      */
 
-    final String line_separator = System.lineSeparator();
-    throw new SAXException(
-      new StringBuilder(128)
-        .append("External subsets are explicitly forbidden by this parser configuration.")
-        .append(line_separator)
-        .append("  Name: ")
-        .append(name)
-        .append(line_separator)
-        .toString());
+    return null;
   }
 
   @Override
