@@ -332,7 +332,7 @@ public final class JXEHardenedSAXParsers
     throws IOException, SAXException
   {
     final var schemaFactory =
-      SchemaFactory.newDefaultInstance();
+      SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     final var schemaDefinitions =
       schemaMappings.mappings().values();
     final var schemaSources =
