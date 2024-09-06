@@ -15,22 +15,8 @@
  */
 
 /**
- * Core types and functions.
+ * Unit tests for the core on Xerces.
  */
 
-module com.io7m.jxe.core
-{
-  requires transitive java.xml;
+package com.io7m.jxe.tests.xerces;
 
-  requires static com.io7m.immutables.style;
-  requires static org.immutables.value;
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
-
-  requires org.slf4j;
-
-  exports com.io7m.jxe.core;
-
-  opens com.io7m.jxe.core
-    to nl.jqno.equalsverifier;
-}

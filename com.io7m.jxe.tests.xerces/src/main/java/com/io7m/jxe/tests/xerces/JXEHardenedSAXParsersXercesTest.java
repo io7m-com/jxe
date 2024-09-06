@@ -14,23 +14,12 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-/**
- * Core types and functions.
- */
+package com.io7m.jxe.tests.xerces;
 
-module com.io7m.jxe.core
+import com.io7m.jxe.tests.core.JXEHardenedSAXParsersTest;
+
+public final class JXEHardenedSAXParsersXercesTest
+  extends JXEHardenedSAXParsersTest
 {
-  requires transitive java.xml;
 
-  requires static com.io7m.immutables.style;
-  requires static org.immutables.value;
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
-
-  requires org.slf4j;
-
-  exports com.io7m.jxe.core;
-
-  opens com.io7m.jxe.core
-    to nl.jqno.equalsverifier;
 }
