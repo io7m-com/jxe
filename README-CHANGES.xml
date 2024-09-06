@@ -37,11 +37,11 @@
         <c:change date="2024-09-01T00:00:00+00:00" summary="Allow for passing in a SAX parser factory explicitly."/>
       </c:changes>
     </c:release>
-    <c:release date="2024-09-01T15:01:16+00:00" is-open="true" ticket-system="com.github.io7m.jxe" version="2.0.0">
+    <c:release date="2024-09-06T21:03:06+00:00" is-open="false" ticket-system="com.github.io7m.jxe" version="2.0.0">
       <c:changes>
         <c:change compatible="false" date="2024-09-01T00:00:00+00:00" summary="Require passing in a supplier of SAX parser factories instead of a single factory."/>
         <c:change date="2024-09-01T00:00:00+00:00" summary="Simplify and improve schema handling in the case of multiple schemas."/>
-        <c:change date="2024-09-01T15:01:16+00:00" summary="Work correctly when running on Xerces-J.">
+        <c:change date="2024-09-01T00:00:00+00:00" summary="Work correctly when running on Xerces-J.">
           <c:tickets>
             <c:ticket id="21"/>
           </c:tickets>
