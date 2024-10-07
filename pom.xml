@@ -31,7 +31,7 @@
 
     <!-- Third-party dependencies. -->
     <com.io7m.jxe.immutables.version>2.10.1</com.io7m.jxe.immutables.version>
-    <junit.version>5.11.1</junit.version>
+    <junit.version>5.11.2</junit.version>
   </properties>
 
   <inceptionYear>2017</inceptionYear>
